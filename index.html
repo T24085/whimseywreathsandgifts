@@ -1,0 +1,134 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whimsy Wreath & Gifts</title>
+  <meta name="description" content="Explore fun wreaths, quirky cutting boards, and playful stickers!">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'WhimsyFont';
+      src: url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    }
+    .animate-bounce-slow {
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-spin-slow {
+      animation: spin 4s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-lime-100 to-emerald-100 text-gray-800 font-sans">
+  <!-- Top Banner -->
+  <header class="w-full">
+    <img src="https://github.com/T24085/whimseywreathsandgifts/blob/main/topbanner.jpg?raw=true" alt="Whimsy Top Banner" class="w-full h-64 object-cover">
+    <div class="absolute top-0 left-0 w-full h-64 bg-emerald-800 bg-opacity-40 flex items-center justify-center">
+      <h1 class="text-5xl font-['WhimsyFont'] text-white drop-shadow-lg">Whimsy Wreath & Gifts</h1>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="container mx-auto py-6 flex justify-center space-x-3 flex-wrap">
+    <a href="https://whimseywreathsandgifts.myshopify.com/" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Home</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/glass-cutting-boards" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Glass Cutting Boards</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/frontpage" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Affirmation Stickers</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/bad-bear-holographic-water-proof-stickers" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Bad Bear Stickers</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/sticker-packs" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Sticker Packs</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/adult-stickers" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Adult Mary Jane Stickers</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/holographic-adult-mary-jane-lighter-wraps-or-stickers" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Holographic Adult Mary Jane Lighter Wraps or Stickers</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/custom-holographic-gas-lighters" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Custom Holographic Gas Lighters</a>
+    <a href="https://whimseywreathsandgifts.myshopify.com/pages/contact" class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-lime-500 transition" target="_blank" rel="noopener noreferrer">Contact</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="container mx-auto py-10 text-center">
+    <h2 class="text-5xl font-['WhimsyFont'] text-emerald-600 mb-3">Dive into Whimsy!</h2>
+    <p class="text-lg text-gray-600 mb-5">Discover a world of quirky treasures, from sassy stickers to vibrant lighters—perfect for adding fun to your day!</p>
+    <a href="https://whimseywreathsandgifts.myshopify.com/collections/all" class="bg-lime-500 text-white px-6 py-3 rounded-full animate-bounce-slow hover:bg-lime-600" target="_blank" rel="noopener noreferrer">Shop Now!</a>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="container mx-auto py-10">
+    <h2 class="text-3xl font-['WhimsyFont'] text-emerald-600 mb-5 text-center">Our Fun Picks</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="https://whimseywreathsandgifts.myshopify.com/products/this-cutting-board-is-a-crime-scene" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition" target="_blank" rel="noopener noreferrer">
+        <img src="https://github.com/T24085/whimseywreathsandgifts/blob/main/PXL_20250521_200506010.jpg?raw=true" alt="This Cutting Board is a Crime Scene!" class="w-full h-48 object-cover">
+        <div class="p-3 text-center">
+          <h3 class="text-xl text-emerald-600">Crime Scene Cutting Board</h3>
+          <p class="text-sm text-gray-600">A hilarious kitchen art piece with veggie chaos—perfect for foodie pranksters!</p>
+        </div>
+      </a>
+      <a href="https://whimseywreathsandgifts.myshopify.com/products/custom-retro-rainbow-gas-lighter" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition" target="_blank" rel="noopener noreferrer">
+        <img src="https://github.com/T24085/whimseywreathsandgifts/blob/main/lighter.jpg?raw=true" alt="Custom Retro Rainbow Gas Lighter" class="w-full h-48 object-cover">
+        <div class="p-3 text-center">
+          <h3 class="text-xl text-emerald-600">Custom Retro Rainbow Gas Lighter</h3>
+          <p class="text-sm text-gray-600">A vibrant, personalized lighter to spark joy with every flame!</p>
+        </div>
+      </a>
+      <a href="https://whimseywreathsandgifts.myshopify.com/products/bad-bear-kiss-my-ass-holographic-water-proof-sticker" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition" target="_blank" rel="noopener noreferrer">
+        <img src="https://github.com/T24085/whimseywreathsandgifts/blob/main/bear.jpg?raw=true" alt="Bad Bear Sticker Pack" class="w-full h-48 object-cover">
+        <div class="p-3 text-center">
+          <h3 class="text-xl text-emerald-600">Bad Bear Stickers</h3>
+          <p class="text-sm text-gray-600">Sassy bear designs that stick with attitude—waterproof and bold!</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Bottom Banner -->
+  <footer class="w-full relative">
+    <img src="https://github.com/T24085/whimseywreathsandgifts/blob/main/bottombanner.jpg?raw=true" alt="Whimsy Bottom Banner" class="w-full h-64 object-cover">
+    <div class="absolute bottom-6 left-0 w-full text-center">
+      <p class="text-white font-['WhimsyFont'] text-2xl bg-emerald-800 bg-opacity-60 p-2 rounded">© 2025 Whimsy Wreath & Gifts - Let’s Get Playful!</p>
+    </div>
+  </footer>
+</body>
+</html>
