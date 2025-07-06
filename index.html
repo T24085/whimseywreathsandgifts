@@ -25,6 +25,14 @@
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
+    .animate-pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body class="bg-gradient-to-b from-lime-100 to-emerald-100 text-gray-800 font-sans">
@@ -32,7 +40,7 @@
   <header class="w-full">
     <img src="https://github.com/T24085/whimseywreathsandgifts/blob/main/topbanner.jpg?raw=true" alt="Whimsy Top Banner" class="w-full h-64 object-cover">
     <div class="absolute top-0 left-0 w-full h-64 bg-emerald-800 bg-opacity-40 flex items-center justify-center">
-      <h1 class="text-5xl font-['WhimsyFont'] text-white drop-shadow-lg">Whimsy Wreath & Gifts</h1>
+      <h1 class="text-5xl font-['WhimsyFont'] text-white drop-shadow-lg animate-pulse">Whimsy Wreath & Gifts</h1>
     </div>
   </header>
 
